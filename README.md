@@ -127,7 +127,7 @@ Finalmente, debido a diversas relaciones entre las distintas tablas, se añadier
 
 ## Diagrama propuesto de Base de Datos 📁
 
-![DiagramaUml](diagramaUml.png)
+![DiagramaUml](diagramaUML.png)
 
 ## Requisitos Técnicos 📋
 
