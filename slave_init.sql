@@ -1,0 +1,2 @@
+CHANGE MASTER TO MASTER_HOST='master_marcos',MASTER_USER='mydb_slave_user',MASTER_PASSWORD='mydb_slave_pwd'; START SLAVE;
+SHOW SLAVE STATUS;

@@ -1,0 +1,53 @@
+version: "3.5"
+services:
+  master_marcos:
+    image: mysql
+    container_name: "master_marcos"
+    restart: unless-stopped
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./master.cnf:/etc/my.cnf
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - persistance_master:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456789
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+  slave_marcos:
+    image: mysql
+    container_name: "slave_marcos"
+    restart: unless-stopped
+    ports:
+      - "3308:3306"
+    depends_on:
+      master_marcos:
+        condition: service_healthy
+    volumes:
+      - ./slave.cnf:/etc/my.cnf
+      - ./slave_init.sql:/docker-entrypoint-initdb.d/init.sql
+      - persistance_slave:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456789
+  slave_marcos_2:
+    image: mysql
+    container_name: "slave_marcos_2"
+    restart: unless-stopped
+    ports:
+      - "3309:3306"
+    depends_on:
+      master_marcos:
+        condition: service_healthy
+    volumes:
+      - ./slave_2.cnf:/etc/my.cnf
+      - ./slave_init.sql:/docker-entrypoint-initdb.d/init.sql
+      - persistance_slave_2:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456789
+
+volumes:
+  persistance_master:
+  persistance_slave:
+  persistance_slave_2:
